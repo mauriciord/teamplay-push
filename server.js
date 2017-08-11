@@ -1,16 +1,20 @@
 const request = require('request');
 const config = require('./configs/config');
+const differenceBy = require('lodash/differenceBy');
 
-// let listaCarregada = [];
-let vez = 1;
+let firstTime = true;
+let loadedList;
+let toSendList = [];
 (function main() {
   request(config.optionsMatch, (error, response, body) => {
     if (error) throw new Error(error);
 
-    console.log(body);
-    console.log(`= = = = = = = = = ${vez}º vez = = = = =`);
+    if (firstTime) {
+      loadedList = JSON.parse(body);
+    }
 
-    vez += vez;
+    console.log(loadedList);
+
     setTimeout(main, config.checkApiInterval);
   });
 }());
